@@ -17,7 +17,8 @@ resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
-# Import ami
+# Import ami imagels
+
 resource "aws_ami" "my_ami" {
   name                = "my-tf-example"
   virtualization_type = "hvm"
@@ -39,9 +40,8 @@ resource "aws_security_group" "my_sec_group" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "example" {
-  security_group_id = aws_security_group.example.id
-
+resource "aws_vpc_security_group_ingress_rule" "my_ingress_rule" {
+  security_group_id = aws_security_group.my_sec_group.id
   cidr_ipv4   = "10.0.0.0/8"
   from_port   = 80
   ip_protocol = "tcp"
