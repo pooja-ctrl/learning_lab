@@ -30,7 +30,22 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_route_table" "myrt" {
   vpc_id = aws_vpc.myvpc.id
   route {
-    cidr_block = aws_vpc.myvpc.cidr_block
+    cidr_block = "0.0.0.0/0"
+    #This means we are routing table from the internet
     gateway_id = aws_internet_gateway.igw.id
+    #this means the routed internet traffic will have this gateway as the destination for any traffic to the VPC
   }
+}
+
+# Create route table association for subnets to associates the desired subnets in the VPC the route must consider
+resource "aws_route_table_association" "rt1a" {
+  subnet_id = aws_subnet.subnet1.id
+  route_table_id = aws_route_table.myrt.id
+
+}
+
+resource "aws_route_table_association" "rt1b" {
+  subnet_id = aws_subnet.subnet2.id
+  route_table_id = aws_route_table.myrt.id
+
 }
